@@ -6,7 +6,7 @@ screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
 
 player = Player()
-all_sprites = pygame.sprite.Group(Player)
+all_sprites = pygame.sprite.Group(player)
 
 running = True
 while running:

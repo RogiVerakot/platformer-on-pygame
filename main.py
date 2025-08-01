@@ -14,6 +14,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    player.rect.y += 3
     all_sprites.update()
 
     screen.fill("black")

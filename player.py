@@ -8,16 +8,14 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(midbottom=(100, 500))
         self.speed_x = 0
 
+
+
     def update(self):
-        keys = pygame.key.get_pressed()
         self.speed_x = 0
-        self.speed_y = 0
-        if keys[pygame.K_LEFT]:
-            self.speed_x = -5
-        if keys[pygame.K_RIGHT]:
-            self.speed_x = 5
-        self.rect.x += self.speed_x
-        if keys[pygame.K_UP]:
-            self.speed_y = -5
-            return
-        self.rect.y += self.speed_y
+        self.velocity = 0
+        self.gravity = 1
+        self.velocity += self.gravity
+        self.rect.y += self.velocity
+    def jump(self):
+        self.velocity = -5
+

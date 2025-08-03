@@ -88,7 +88,7 @@ while running:
         if keys[pygame.K_UP]:
             player.rect.y -= 50
     # all_sprites.update()
-    # player.update()
+    player.update()
     # wave.update()
     wave_anim.update()
     wave_anim_2.update()
@@ -112,7 +112,7 @@ while running:
     wave_anim.draw(screen)
     wave_anim_2.draw(screen)
     wave_anim_3.draw(screen)
-    # screen.blit(player.image, player.rect)
+    screen.blit(player.image, player.rect)
     pygame.display.flip()
     clock.tick(60)
 

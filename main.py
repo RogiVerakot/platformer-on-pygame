@@ -4,8 +4,9 @@ from tiles import *
 import os
 
 pygame.init()
-W = 800
-H = 600
+W = 1000
+H = 800
+i = 1
 screen = pygame.display.set_mode((W, H))
 clock = pygame.time.Clock()
 
@@ -13,10 +14,12 @@ player = Player()
 grassmid = GrassMid()
 grassmid_2 = GrassMid_2()
 grassmid_3 = GrassMid_3()
-# grassmid_4 = GrassMid_4()
-# grassmid_5 = GrassMid_5()
-# grassmid_6 = GrassMid_6()
-grass = Grass()
+grass856x1112 = Grass856x1112()
+grass1056x1012 = Grass1056x1012()
+grass856x912 = Grass856x912()
+grass656x812 = Grass656x812()
+grass456x712 = Grass456x712()
+
 grassright = GrassRight()
 grasshillright = GrassHillRight()
 
@@ -30,12 +33,16 @@ image = pygame.transform.scale(image, (W, H))
 
 class WaveAnimation:
     def __init__(self, position, frames_folder="res_animation", width=100, height=100):
+        global i
         self.frames = []
         frame_files = sorted(os.listdir(frames_folder))
 
         for frame_file in frame_files:
             if frame_file.endswith(('.png', '.jpg', '.jpeg')):
-                frame_path = os.path.join(frames_folder, frame_file)
+                frame_path = f'res_animation\{i}-4x.png'
+                i += 1
+                if i >= 17:
+                    i = 1
                 frame = pygame.image.load(frame_path).convert_alpha()
                 if width is not None and height is not None:
                     frame = pygame.transform.scale(frame, (width, height))
@@ -62,10 +69,11 @@ class WaveAnimation:
 
     def draw(self, surface):
         surface.blit(self.frames[self.current_frame], self.rect)
-wave_anim = WaveAnimation((550, 550), width=100, height=100)
-wave_anim_2 = WaveAnimation((650, 550), width=100, height=100)
-wave_anim_3 = WaveAnimation((750, 550), width=100, height=100)
-
+wave_anim = WaveAnimation((550, 750), width=100, height=100)
+wave_anim_2 = WaveAnimation((650, 750), width=100, height=100)
+wave_anim_3 = WaveAnimation((750, 750), width=100, height=100)
+wave_anim_4 = WaveAnimation((850, 750), width=100, height=100)
+wave_anim_5 = WaveAnimation((950, 750), width=100, height=100)
 
 # 656, 1012
 try:
@@ -94,6 +102,8 @@ while running:
     wave_anim.update()
     wave_anim_2.update()
     wave_anim_3.update()
+    wave_anim_4.update()
+    wave_anim_5.update()
 
     # grasscliffmid.update()
     # screen.fill("black")
@@ -102,7 +112,7 @@ while running:
     screen.blit(grassmid.image, grassmid.rect)
     screen.blit(grassmid_2.image, grassmid_2.rect)
     screen.blit(grassmid_3.image, grassmid_3.rect)
-    screen.blit(grass.image, grass.rect)
+    screen.blit(grass856x1112.image, grass856x1112.rect)
 
     # screen.blit(grasscliffmid_4.image, grasscliffmid_4.rect)
     # screen.blit(grasscliffmid_5.image, grasscliffmid_5.rect)
@@ -111,11 +121,17 @@ while running:
     screen.blit(grassright.image, grassright.rect)
     screen.blit(grasshillright.image, grasshillright.rect)
     screen.blit(grasshillright2.image, grasshillright2.rect)
+    screen.blit(grass1056x1012.image, grass1056x1012.rect)
+    screen.blit(grass856x912.image, grass856x912.rect)
+    screen.blit(grass656x812.image, grass656x812.rect)
+    screen.blit(grass456x712.image, grass456x712.rect)
     # screen.blit(grass_2.image, grass_2.rect)
     # wave.draw(screen)
     wave_anim.draw(screen)
     wave_anim_2.draw(screen)
     wave_anim_3.draw(screen)
+    wave_anim_4.draw(screen)
+    wave_anim_5.draw(screen)
     screen.blit(player.image, player.rect)
     pygame.display.flip()
     clock.tick(60)

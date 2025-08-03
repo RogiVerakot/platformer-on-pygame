@@ -13,14 +13,15 @@ player = Player()
 grassmid = GrassMid()
 grassmid_2 = GrassMid_2()
 grassmid_3 = GrassMid_3()
-grassmid_4 = GrassMid_4()
-grassmid_5 = GrassMid_5()
-grassmid_6 = GrassMid_6()
-
+# grassmid_4 = GrassMid_4()
+# grassmid_5 = GrassMid_5()
+# grassmid_6 = GrassMid_6()
+grass = Grass()
 grassright = GrassRight()
 grasshillright = GrassHillRight()
 
 grasshillright2 = GrassHillRight2()
+grass_2 = Grass_2
 # all_sprites = pygame.sprite.Group(player)
 
 image = pygame.image.load("res/Free Platform Game Assets/Backgrounds/New Background ( Update 1.7 )/png/2048x1536/Background/NewBackground2048x1536.png")
@@ -101,6 +102,8 @@ while running:
     screen.blit(grassmid.image, grassmid.rect)
     screen.blit(grassmid_2.image, grassmid_2.rect)
     screen.blit(grassmid_3.image, grassmid_3.rect)
+    screen.blit(grass.image, grass.rect)
+
     # screen.blit(grasscliffmid_4.image, grasscliffmid_4.rect)
     # screen.blit(grasscliffmid_5.image, grasscliffmid_5.rect)
     # screen.blit(grasscliffmid_6.image, grasscliffmid_6.rect)
@@ -108,6 +111,7 @@ while running:
     screen.blit(grassright.image, grassright.rect)
     screen.blit(grasshillright.image, grasshillright.rect)
     screen.blit(grasshillright2.image, grasshillright2.rect)
+    screen.blit(grass_2.image, grass_2.rect)
     # wave.draw(screen)
     wave_anim.draw(screen)
     wave_anim_2.draw(screen)

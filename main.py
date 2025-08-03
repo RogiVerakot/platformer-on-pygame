@@ -90,7 +90,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if keys[pygame.K_UP]:
+            player.velocity = 0
             player.rect.y -= 120
+        else:
+            player.velocity += player.gravity
     # all_sprites.update()
     player.update()
     # wave.update()
@@ -122,7 +125,7 @@ while running:
     screen.blit(grass456x712.image, grass456x712.rect)
     # screen.blit(grass_2.image, grass_2.rect)
     # wave.draw(screen)
-    player.draw(screen)
+    # player.draw(screen)
     wave_anim.draw(screen)
     wave_anim_2.draw(screen)
     wave_anim_3.draw(screen)

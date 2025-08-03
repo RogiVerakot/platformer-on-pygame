@@ -89,11 +89,6 @@ while running:
         keys = pygame.key.get_pressed()
         if event.type == pygame.QUIT:
             running = False
-        if keys[pygame.K_LEFT]:
-            player.speed_x = -5
-        if keys[pygame.K_RIGHT]:
-            player.speed_x = 5
-        player.rect.x += player.speed_x
         if keys[pygame.K_UP]:
             player.rect.y -= 50
     # all_sprites.update()

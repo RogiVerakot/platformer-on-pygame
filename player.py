@@ -11,11 +11,19 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
+        keys = pygame.key.get_pressed()
         self.speed_x = 0
         self.velocity = 0
         self.gravity = 1
         self.velocity += self.gravity
         self.rect.y += self.velocity
+
+        if keys[pygame.K_LEFT]:
+            self.speed_x = -5
+        if keys[pygame.K_RIGHT]:
+            self.speed_x = 5
+        self.rect.x += self.speed_x
+
     def jump(self):
         self.velocity = -5
 

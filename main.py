@@ -24,7 +24,6 @@ grassright = GrassRight(656, 1212)
 grasshillright = GrassHillRight(256, 1112)
 
 grasshillright2 = GrassHillRight2(256, 1212)
-# grass_2 = Grass_2
 # all_sprites = pygame.sprite.Group(player)
 
 image = pygame.image.load("res/Free Platform Game Assets/Backgrounds/New Background ( Update 1.7 )/png/2048x1536/Background/NewBackground2048x1536.png")

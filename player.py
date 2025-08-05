@@ -33,10 +33,22 @@ class Player(pygame.sprite.Sprite):
         self.default_image = pygame.image.load('res/bob.png').convert_alpha()
         self.image = self.default_image
         self.rect = self.image.get_rect(midbottom=(100, 500))
+        self.speed_y = 0
         self.speed_x = 0
         self.velocity = 0
-        self.gravity = 0.1
+        self.gravity = 0.8
         self.is_running = False
+        self.facing_left = False
+        self.jump_power = -18
+        self.jumping = False
+        self.on_ground = False
+        self.max_fall_speed = 15
+        self.on_slope = False
+        self.slope_adjustment = 0
+        self.max_speed = 5
+        self.jump_power = -15
+        self.gravity = 0.8
+        self.max_fall_speed = 15
 
         # Загрузка анимации бега (теперь передаём только height)
         self.run_frames = self.load_animation_frames(frames_folder_run, height)
@@ -47,6 +59,8 @@ class Player(pygame.sprite.Sprite):
         if not self.run_frames:
             print("Warning: No running animation frames loaded - using default image")
             self.run_frames = [self.default_image]
+        self.slope_adjustment = 0  # Для плавного движения по склонам
+        self.on_slope = False  # Флаг нахождения на склоне
 
     # Остальные методы (update_run_animation, update, jump) остаются без изменений
 
@@ -55,6 +69,8 @@ class Player(pygame.sprite.Sprite):
     def update_run_animation(self):
         if not self.is_running:
             self.image = self.default_image
+            if self.facing_left:  # Если стоим, но смотрели влево
+                self.image = pygame.transform.flip(self.image, True, False)
             return
 
         self.frame_counter += self.animation_speed
@@ -63,6 +79,8 @@ class Player(pygame.sprite.Sprite):
             self.current_run_frame = (self.current_run_frame + 1) % len(self.run_frames)
 
         self.image = self.run_frames[self.current_run_frame]
+        if self.facing_left:  # Применяем отражение если смотрим влево
+            self.image = pygame.transform.flip(self.image, True, False)
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -79,18 +97,33 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_LEFT]:
             self.speed_x = -5
             self.is_running = True
+            self.facing_left = True
             self.image = pygame.transform.flip(self.image, True, False)  # Отражаем изображение при движении влево
         if keys[pygame.K_RIGHT]:
             self.speed_x = 5
             self.is_running = True
+            self.facing_left = False
 
         self.rect.x += self.speed_x
+        if not self.on_ground:
+            self.on_slope = False
+            self.slope_adjustment = 0
+
 
         # Обновление анимации
         self.update_run_animation()
 
+    def update_movement(self):
+        # Обработка движения по склону
+        if self.on_slope:
+            self.rect.x += self.speed_x
+            self.rect.y += self.slope_adjustment
+        else:
+            self.rect.x += self.speed_x
+            self.rect.y += self.velocity
+
     def jump(self):
-        self.velocity = -5
+        self.velocity = -15
 
 
 # import pygame

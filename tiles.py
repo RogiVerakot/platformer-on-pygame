@@ -13,6 +13,10 @@ class GrassMid(Tails):
         super().__init__(image_path='res/Free Platform Game Assets/Tiles/2D Tiles ( Update 1.9 )/Spring/512x512/GrassMid.png')
         self.rect = self.image.get_rect(midbottom=(x, y))
 
+class GrassCliffMid(Tails):
+    def __init__(self, x, y):
+        super().__init__(image_path='res/Free Platform Game Assets/Tiles/2D Tiles ( Update 1.9 )/Spring/512x512/GrassCliffMid.png')
+        self.rect = self.image.get_rect(midbottom=(x, y))
 class GrassHillRight2(Tails):
     def __init__(self, x, y):
         super().__init__(image_path='res/Free Platform Game Assets/Tiles/2D Tiles ( Update 1.9 )/Spring/512x512/GrassHillRight2.png')
@@ -26,7 +30,7 @@ class GrassRight(Tails):
 class GrassHillRight(Tails):
     def __init__(self, x, y):
         super().__init__(image_path='res/Free Platform Game Assets/Tiles/2D Tiles ( Update 1.9 )/Spring/512x512/GrassHillRight.png')
-        self.rect = self.image.get_rect(midbottom=(x, y))
+        self.rect = self.image.get_rect(bottomleft=(x, y))
         self.mask = pygame.mask.from_surface(self.image)
         self.slope_p1 = (self.rect.left, self.rect.top)
         self.slope_p2 = (self.rect.left, self.rect.bottom)

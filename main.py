@@ -1,7 +1,7 @@
 import pygame
 import os
 from player import Player
-from tiles import GrassMid, Grass, GrassRight, GrassHillRight, GrassHillRight2
+from tiles import *
 
 
 class Game:
@@ -33,10 +33,18 @@ class Game:
 
         # Создание платформ
         self.platforms = [
-            GrassMid(150, 800), GrassMid(250, 800), GrassMid(350, 800),
-            Grass(250, 300), Grass(650, 700), Grass(850, 600),
-            GrassHillRight(750, 400), Grass(450, 400), GrassRight(450, 800),
-            GrassHillRight(50, 700), GrassHillRight2(50, 800)
+            GrassMid(150, 800),
+            GrassMid(250, 800),
+            GrassMid(350, 800),
+            Grass(450, 300),
+            Grass(250, 300),
+            Grass(650, 700),
+            Grass(850, 600),
+            GrassHillRight(700, 400),
+            GrassMid(650, 400),
+            GrassRight(450, 800),
+            GrassHillRight(0, 700),
+            GrassHillRight2(50, 800)
         ]
 
         # Инициализация анимаций волн
@@ -81,33 +89,41 @@ class Game:
         for wave in self.wave_animations:
             wave.update()
 
-        def update(self):
-            # Применяем гравитацию
-            if not self.player.on_ground:
-                self.player.velocity += self.player.gravity
-                self.player.velocity = min(self.player.velocity, self.player.max_fall_speed)
+    # def update(self):
+    #     # Применяем гравитацию
+    #     if not self.player.on_ground:
+    #         self.player.velocity += self.player.gravity
+    #         self.player.velocity = min(self.player.velocity, self.player.max_fall_speed)
+    #
+    #     # Сохраняем старую позицию
+    #     old_x, old_y = self.player.rect.x, self.player.rect.y
+    #
+    #     # Пробное перемещение
+    #     self.player.rect.x += self.player.speed_x
+    #     self.player.rect.y += self.player.velocity
+    #
+    #     # Сбрасываем состояние перед проверкой коллизий
+    #     self.player.on_ground = False
+    #     self.player.on_slope = False
+    #
+    #     # Проверяем коллизии
+    #
+    #     for platform in self.platforms:
+    #         if not hasattr(platform, 'is_slope') and self.player.rect.colliderect(platform.rect):
+    #             self.handle_standard_collision(platform)
+    #
+    #         # Затем проверяем склоны
+    #     for platform in self.platforms:
+    #         if hasattr(platform, 'is_slope') and platform.is_slope and self.player.rect.colliderect(platform.rect):
+    #             self.handle_slope_collision(platform)
+    #
+    #     # Если после коллизии позиция не изменилась - значит было столкновение
+    #     if self.player.rect.x == old_x:
+    #         self.player.speed_x = 0
+    #     if self.player.rect.y == old_y and self.player.velocity != 0:
+    #         self.player.velocity = 0
 
-            # Сохраняем старую позицию
-            old_x, old_y = self.player.rect.x, self.player.rect.y
-
-            # Пробное перемещение
-            self.player.rect.x += self.player.speed_x
-            self.player.rect.y += self.player.velocity
-
-            # Сбрасываем состояние перед проверкой коллизий
-            self.player.on_ground = False
-            self.player.on_slope = False
-
-            # Проверяем коллизии
-            for platform in self.platforms:
-                if self.player.rect.colliderect(platform.rect):
-                    self.handle_collision(platform)
-
-            # Если после коллизии позиция не изменилась - значит было столкновение
-            if self.player.rect.x == old_x:
-                self.player.speed_x = 0
-            if self.player.rect.y == old_y and self.player.velocity != 0:
-                self.player.velocity = 0
+        # keys[p]
 
     def handle_collision(self, platform):
         # Для склонов - специальная обработка
@@ -141,40 +157,117 @@ class Game:
                 self.player.velocity = 0
         return True
 
+    # # def handle_slope_collision(self, platform):
+    # #     # Проверяем, что игрок находится в пределах платформы по X
+    # #     if not (platform.rect.left <= self.player.rect.centerx <= platform.rect.right):
+    # #         return False
+    # #
+    # #     # Для GrassHillRight (правый склон)
+    # #     elif isinstance(platform, GrassHillRight):
+    # #         return self.handle_right_slope(platform)
+    # #     # # Для GrassHillLeft (левый склон)
+    # #     # elif isinstance(platform, GrassHillLeft):
+    # #     #     return self.handle_left_slope(platform)
+    #
+    #     # return False
+    # def handle_slope_collision(self, platform):
+    #     # Проверяем, что игрок находится в пределах платформы по X
+    #     if not (platform.rect.left <= self.player.rect.centerx <= platform.rect.right):
+    #         return False
+    #
+    #     # Для GrassHillRight (правый склон)
+    #     if isinstance(platform, GrassHillRight):
+    #         # Вычисляем высоту склона в текущей позиции игрока
+    #         relative_x = self.player.rect.centerx - platform.rect.left
+    #         slope_ratio = relative_x / platform.rect.width
+    #         slope_y = platform.rect.bottom - int(slope_ratio * platform.rect.height)
+    #
+    #         # Проверяем, что игрок находится выше склона
+    #         if self.player.rect.bottom > slope_y:
+    #             # Определяем направление подхода к склону
+    #             approaching_from_bottom = (self.player.rect.top >= platform.rect.bottom - 10 and
+    #                                        self.player.velocity >= 0)
+    #
+    #             # Если подходим снизу - блокируем прохождение
+    #             if approaching_from_bottom:
+    #                 self.player.rect.top = platform.rect.bottom
+    #                 self.player.velocity = 0
+    #                 return False
+    #
+    #             # Если подходим сверху - корректируем позицию
+    #             if self.player.velocity >= 0:
+    #                 self.player.rect.bottom = slope_y
+    #                 self.player.velocity = 0
+    #                 self.player.on_ground = True
+    #                 self.player.on_slope = True
+    #
+    #                 # Плавное движение вверх по склону
+    #                 if self.player.speed_x > 0:
+    #                     self.player.rect.y -= 1
+    #                 return True
+    #             else:  # Движение вверх - отталкиваем
+    #                 self.player.rect.top = platform.rect.bottom
+    #                 self.player.velocity = 0
+    #                 return False
+    #
+    #     return False
+
     def handle_slope_collision(self, platform):
-        # Проверяем находится ли игрок в пределах платформы по X
+        # Проверяем, что игрок находится в пределах платформы по X
         if not (platform.rect.left <= self.player.rect.centerx <= platform.rect.right):
             return False
 
-        # Вычисляем высоту склона в текущей позиции игрока
-        slope_y = platform.slope_k * self.player.rect.centerx + platform.slope_b
+        # Для GrassHillRight (правый склон)
+        if isinstance(platform, GrassHillRight):
+            return self.handle_right_slope(platform)
+        # Для GrassHillLeft (левый склон)
+        elif isinstance(platform, GrassHillLeft):
+            return self.handle_left_slope(platform)
 
-        # Определяем направление подхода к склону
-        approaching_from_left = self.player.rect.right <= platform.rect.left + 10
-        approaching_from_bottom = self.player.rect.top >= platform.rect.bottom - 10
+        return False
+    def handle_left_slope(self, platform):
+        # Вычисляем высоту склона
+        relative_x = self.player.rect.centerx - platform.rect.left
+        slope_ratio = relative_x / platform.rect.width
+        slope_y = platform.rect.bottom - int(slope_ratio * platform.rect.height)
 
-        # Запрещаем заход снизу и слева
-        if approaching_from_bottom or approaching_from_left:
-            # Отталкиваем игрока от платформы
-            if approaching_from_bottom:
+        if self.player.rect.bottom > slope_y:
+            # Проверяем направление движения
+            if self.player.velocity >= 0:  # Падение или стояние
+                self.player.rect.bottom = slope_y
+                self.player.velocity = 0
+                self.player.on_ground = True
+                self.player.on_slope = True
+
+                # Плавный подъем при движении вправо
+                if self.player.speed_x > 0:
+                    self.player.rect.y -= abs(self.player.speed_x) * 0.5
+                return True
+            else:  # Движение вверх
                 self.player.rect.top = platform.rect.bottom
                 self.player.velocity = 0
-            if approaching_from_left:
-                self.player.rect.right = platform.rect.left
-                self.player.speed_x = 0
-            return False
+        return False
 
-        # Обычная обработка сверху
+    def handle_right_slope(self, platform):
+        # Вычисляем высоту склона (зеркально для левого склона)
+        relative_x = platform.rect.right - self.player.rect.centerx
+        slope_ratio = relative_x / platform.rect.width
+        slope_y = platform.rect.bottom - int(slope_ratio * platform.rect.height)
+
         if self.player.rect.bottom > slope_y:
-            self.player.rect.bottom = slope_y
-            self.player.velocity = 0
-            self.player.on_ground = True
-            self.player.on_slope = True
+            if self.player.velocity >= 0:
+                self.player.rect.bottom = slope_y
+                self.player.velocity = 0
+                self.player.on_ground = True
+                self.player.on_slope = True
 
-            # Плавное движение вверх по склону при движении вправо
-            if self.player.speed_x > 0:
-                self.player.rect.y -= 1
-            return True
+                # Плавный подъем при движении влево
+                if self.player.speed_x < 0:
+                    self.player.rect.y -= abs(self.player.speed_x) * 0.5
+                return True
+            else:
+                self.player.rect.top = platform.rect.bottom
+                self.player.velocity = 0
         return False
 
     def handle_screen_bounds(self):
@@ -197,7 +290,9 @@ class Game:
         for platform in self.platforms:
             if 0 <= platform.rect.y <= self.HEIGHT:
                 self.screen.blit(platform.image, platform.rect)
-
+        if hasattr(platform, 'is_slope') and platform.is_slope:
+            pygame.draw.line(self.screen, (255, 0, 0),
+                             platform.rect.bottomleft, platform.rect.topright, 2)
         # Анимации волн
         for wave in self.wave_animations:
             wave.draw(self.screen)
@@ -206,6 +301,8 @@ class Game:
         self.screen.blit(self.player.image, self.player.rect)
 
         pygame.display.flip()
+        if hasattr(platform, 'is_slope') and platform.is_slope:
+            pygame.draw.line(self.screen, (255, 0, 0), platform.rect.bottomleft, platform.rect.topright, 2)
 
     def check_right_slope_collision(self, platform):
         # Проверяем находится ли игрок в пределах платформы по X

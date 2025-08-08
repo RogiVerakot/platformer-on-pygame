@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     def load_animation_frames(self, folder_path, height=None):
         frames = []
         frame_files = sorted([f for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg'))])
-
+        print(frame_files)
         for frame_file in frame_files:
             frame_path = os.path.join(folder_path, frame_file)
             try:

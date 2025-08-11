@@ -23,7 +23,7 @@ class Game:
         """Загрузка всех ресурсов игры"""
         # Фон
         bg_image = pygame.image.load(
-            "res/Free Platform Game Assets/Backgrounds/New Background ( Update 1.7 )/png/2048x1536/Background/NewBackground2048x1536.png")
+            "res/Free Platform Game Assets/Backgrounds/New Background ( Update 1.7 )/2048x1536/Background/NewBackground2048x1536.png")
         self.background = pygame.transform.scale(bg_image, (self.WIDTH, self.HEIGHT))
 
     def init_game_objects(self):

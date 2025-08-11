@@ -3,12 +3,10 @@ import os
 
 
 class Player(pygame.sprite.Sprite):
-    def load_animation_frames(self, folder_path, height=None):
+    def load_animation_frames(self, folder_path="res_animation_run", height=None):
         frames = []
-        frame_files = sorted([f for f in os.listdir(folder_path) if f.endswith(('.png', '.jpg', '.jpeg'))])
-        print(frame_files)
-        for frame_file in frame_files:
-            frame_path = os.path.join(folder_path, frame_file)
+        for i in range(0, 18):
+            frame_path = os.path.join(folder_path, f"{i}.png")
             try:
                 frame = pygame.image.load(frame_path).convert_alpha()
 
@@ -26,6 +24,22 @@ class Player(pygame.sprite.Sprite):
                 print(f"Failed to load frame {frame_path}: {e}")
 
         return frames
+
+    # def load_animation_frames(self, folder_path, height=None):
+    #     global i
+    #     frames = []
+    #     try:
+    #         for i in range(1, 17):
+    #             frame_path = os.path.join(frames_folder, f"{i}.png")
+    #             if i >= 18:
+    #                 i = 0
+    #             frame = pygame.image.load(frame_path).convert_alpha()
+    #             if width and height:
+    #                 frame = pygame.transform.scale(frame, (width, height))
+    #             frames.append(frame)
+    #     except Exception as e:
+    #         print(f"Error loading animation frames: {e}")
+    #     return frames
 
     def __init__(self, frames_folder_run="res_animation_run", height=73):  # Убрали width, оставили height
         super().__init__()

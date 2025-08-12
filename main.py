@@ -27,6 +27,7 @@ def main():
         GrassMid(250, 800),
         GrassMid(350, 800),
         Grass(250, 300),
+        Grass(450, 300),
         Grass(650, 700),
         Grass(850, 600),
         GrassHillRight(700, 400),

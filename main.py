@@ -3,7 +3,7 @@ import os
 from player import Player
 from tiles import GrassMid, Grass, GrassRight, GrassHillRight, GrassHillRight2
 from wave_animation import WaveAnimation
-
+from platforms import *
 
 def main():
     # Инициализация Pygame
@@ -21,21 +21,6 @@ def main():
 
     # Инициализация игровых объектов
     player = Player(frames_folder_run="res_animation_run", height=73)
-
-    platforms = [
-        GrassMid(150, 800),
-        GrassMid(250, 800),
-        GrassMid(350, 800),
-        Grass(250, 300),
-        Grass(450, 300),
-        Grass(650, 700),
-        Grass(850, 600),
-        GrassHillRight(700, 400),
-        GrassMid(650, 400),
-        GrassRight(450, 800),
-        GrassHillRight(0, 700),
-        GrassHillRight2(50, 800)
-    ]
 
     wave_animations = [
         WaveAnimation((x, 750), width=100, height=100)

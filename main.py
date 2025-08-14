@@ -164,19 +164,23 @@ def main():
     def render():
         screen.blit(background, (0, 0))
 
+        # Отрисовка объектов
         for platform in platforms:
-            if 0 <= platform.rect.y <= HEIGHT:
-                screen.blit(platform.image, platform.rect)
-
-        if level == 0:
-            for door in doors:
-                if 0 <= door.rect.y <= HEIGHT:
-                    screen.blit(door.image, door.rect)
+            screen.blit(platform.image, platform.rect)
+            pygame.draw.rect(screen, (255, 0, 0), platform.rect, 1)
 
         for wave in wave_animations:
             wave.draw(screen)
+            pygame.draw.rect(screen, (0, 0, 255), wave.rect, 1)
 
         screen.blit(player.image, player.rect)
+        pygame.draw.rect(screen, (0, 255, 0), player.rect, 1)
+        # Отрисовка скорости игрока
+        pygame.draw.line(screen, (255, 0, 255),
+                         player.rect.center,
+                         (player.rect.centerx + player.speed_x * 10,
+                          player.rect.centery + player.velocity * 10), 2)
+
         pygame.display.flip()
 
     # Главный игровой цикл
@@ -185,7 +189,7 @@ def main():
         handle_input()
         update()
         render()
-        clock.tick(60)
+        clock.tick(6)
 
     pygame.quit()
 

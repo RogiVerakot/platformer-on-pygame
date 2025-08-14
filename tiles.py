@@ -45,3 +45,8 @@ class Grass(Tails):
     def __init__(self, x, y):
         super().__init__(image_path='res/Free Platform Game Assets/Tiles/2D Tiles ( Update 1.9 )/Spring/512x512/Grass.png')
         self.rect = self.image.get_rect(midbottom=(x, y))
+
+class Door(Tails):
+    def __init__(self, x, y):
+        super().__init__(image_path='res/Free Platform Game Assets/GUI ( Update 1.7 )/Elements1024x512/image_2.png')
+        self.rect = self.image.get_rect(midbottom=(x, y))

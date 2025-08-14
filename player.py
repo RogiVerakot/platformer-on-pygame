@@ -2,7 +2,6 @@ import pygame
 import os
 from platforms import platforms
 
-
 class Player(pygame.sprite.Sprite):
     def load_animation_frames(self, folder_path="res_animation_run", height=None):
         frames = []
@@ -47,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         # Основные свойства персонажа
         self.default_image = pygame.image.load('res/bob.png').convert_alpha()
         self.image = self.default_image
-        self.rect = self.image.get_rect(midbottom=(100, 500))
+        self.rect = self.image.get_rect(midbottom=(450, 500))
         self.speed_y = 0
         self.speed_x = 0
         self.velocity = 0

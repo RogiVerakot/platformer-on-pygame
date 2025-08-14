@@ -33,3 +33,13 @@ elif level == 1:
         GrassHillRight(0, 700),
         GrassHillRight2(50, 800)
     ]
+
+doors = [
+    Door(450, 700),
+    Door(250, 700),
+    Door(250, 200),
+    Door(450, 200),
+    Door(650, 300),
+    Door(650, 600),
+    Door(850, 500),
+]

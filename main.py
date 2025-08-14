@@ -62,6 +62,11 @@ def main():
             for wave in wave_animations:
                 wave.rect.x += move_direction * 5
 
+        if level == 0:
+            if move_direction != 0:
+                for door in doors:
+                    door.rect.x += move_direction * 5  # 5 - скорость движения
+
         # Проверка коллизий (остаётся без изменений)
         player.on_ground = False
         for platform in platforms:
@@ -162,6 +167,11 @@ def main():
         for platform in platforms:
             if 0 <= platform.rect.y <= HEIGHT:
                 screen.blit(platform.image, platform.rect)
+
+        if level == 0:
+            for door in doors:
+                if 0 <= door.rect.y <= HEIGHT:
+                    screen.blit(door.image, door.rect)
 
         for wave in wave_animations:
             wave.draw(screen)

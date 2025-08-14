@@ -1,5 +1,6 @@
 import pygame
 import os
+from platforms import platforms
 
 
 class Player(pygame.sprite.Sprite):
@@ -96,36 +97,61 @@ class Player(pygame.sprite.Sprite):
         if self.facing_left:  # Применяем отражение если смотрим влево
             self.image = pygame.transform.flip(self.image, True, False)
 
+    # def update(self):
+    #     keys = pygame.key.get_pressed()
+    #
+    #     # Сброс скорости
+    #     self.speed_x = 0
+    #     self.is_running = False
+    #
+    #     # Применение гравитации
+    #     self.velocity += self.gravity
+    #     self.rect.y += self.velocity
+    #
+    #     # Обработка движения
+    #     if keys[pygame.K_LEFT]:
+    #         platforms.rect.x -= 5
+    #         self.is_running = True
+    #         self.facing_left = True
+    #         self.image = pygame.transform.flip(self.image, True, False)  # Отражаем изображение при движении влево
+    #     if keys[pygame.K_RIGHT]:
+    #         platforms.rect.x += 5
+    #         self.is_running = True
+    #         self.facing_left = False
+    #
+    #     self.rect.x += self.speed_x
+    #     if not self.on_ground:
+    #         self.on_slope = False
+    #         self.slope_adjustment = 0
+    #
+    #
+    #     # Обновление анимации
+    #     self.update_run_animation()
+
     def update(self):
         keys = pygame.key.get_pressed()
 
-        # Сброс скорости
-        self.speed_x = 0
         self.is_running = False
-
-        # Применение гравитации
-        self.velocity += self.gravity
-        self.rect.y += self.velocity
+        move_direction = 0  # 0 - нет движения, 1 - вправо, -1 - влево
 
         # Обработка движения
         if keys[pygame.K_LEFT]:
-            self.speed_x = -5
+            move_direction = 1  # Платформы двигаем вправо (имитация движения влево)
             self.is_running = True
             self.facing_left = True
-            self.image = pygame.transform.flip(self.image, True, False)  # Отражаем изображение при движении влево
-        if keys[pygame.K_RIGHT]:
-            self.speed_x = 5
+        elif keys[pygame.K_RIGHT]:
+            move_direction = -1  # Платформы двигаем влево (имитация движения вправо)
             self.is_running = True
             self.facing_left = False
 
-        self.rect.x += self.speed_x
-        if not self.on_ground:
-            self.on_slope = False
-            self.slope_adjustment = 0
+        # Гравитация
+        self.velocity += self.gravity
+        self.rect.y += self.velocity
 
-
-        # Обновление анимации
+        # Анимация
         self.update_run_animation()
+
+        return move_direction
 
     def update_movement(self):
         # Обработка движения по склону

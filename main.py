@@ -50,15 +50,25 @@ def main():
             player.speed_x = 0
 
     def update():
-        player.update()
+        # Получаем направление движения от игрока
+        move_direction = player.update()
 
-        # Проверка коллизий с платформами
+        # Двигаем все платформы в противоположную сторону
+        if move_direction != 0:
+            for platform in platforms:
+                platform.rect.x += move_direction * 5  # 5 - скорость движения
+
+            # Двигаем анимации волн тоже
+            for wave in wave_animations:
+                wave.rect.x += move_direction * 5
+
+        # Проверка коллизий (остаётся без изменений)
         player.on_ground = False
         for platform in platforms:
             if player.rect.colliderect(platform.rect):
                 handle_collision(platform)
 
-        # Границы экрана
+        # Границы экрана (теперь проверяем, чтобы игрок не уходил за пределы)
         handle_screen_bounds()
 
         # Обновление анимаций волн
@@ -134,10 +144,13 @@ def main():
         return False
 
     def handle_screen_bounds():
-        if player.rect.left < 0:
-            player.rect.left = 0
-        if player.rect.right > WIDTH:
-            player.rect.right = WIDTH
+        # # Удерживаем игрока в пределах экрана по горизонтали
+        # if player.rect.left < 50:  # Левая граница
+        #     player.rect.left = 50
+        # elif player.rect.right > WIDTH - 50:  # Правая граница
+        #     player.rect.right = WIDTH - 50
+        #
+        # Нижняя граница (если игрок падает вниз)
         if player.rect.bottom > HEIGHT:
             player.rect.bottom = HEIGHT
             player.velocity = 0

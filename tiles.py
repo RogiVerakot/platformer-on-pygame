@@ -58,5 +58,6 @@ class Door_2(Tails):
 
 class Door_3(Tails):
     def __init__(self, x, y):
-        super().__init__(image_path='res/Free Platform Game Assets/GUI ( Update 1.7 )/Elements1024x512/image_7.png')
+        super().__init__(image_path='res/Free Platform Game Assets/GUI ( Update 1.7 )/Elements1024x512/image_6.png')
         self.rect = self.image.get_rect(midbottom=(x, y))
+        self.image = pygame.transform.scale(self.image, [a, 41.8604651163])

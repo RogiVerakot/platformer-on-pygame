@@ -171,15 +171,13 @@ def main():
 
         for wave in wave_animations:
             wave.draw(screen)
-            pygame.draw.rect(screen, (0, 0, 255), wave.rect, 1)
 
         screen.blit(player.image, player.rect)
-        pygame.draw.rect(screen, (0, 255, 0), player.rect, 1)
-        # Отрисовка скорости игрока
-        pygame.draw.line(screen, (255, 0, 255),
-                         player.rect.center,
-                         (player.rect.centerx + player.speed_x * 10,
-                          player.rect.centery + player.velocity * 10), 2)
+        pygame.draw.rect(screen, (0, 0, 255), player.rect, 1)
+        # pygame.draw.line(screen, (255, 0, 255)
+                         # player.rect.center,
+                         # (player.rect.centerx + player.speed_x * 10,
+                         #  player.rect.centery + player.velocity * 10), 2)
 
         pygame.display.flip()
 

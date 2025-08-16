@@ -60,7 +60,6 @@ class Player(pygame.sprite.Sprite):
         self.on_slope = False
         self.slope_adjustment = 0
         self.max_speed = 5
-        self.jump_power = -15
         self.gravity = 0.8
         self.max_fall_speed = 15
 

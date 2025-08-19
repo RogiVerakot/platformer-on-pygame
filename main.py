@@ -85,10 +85,10 @@ def handle_collision(platform):
     return handle_standard_collision(platform)
 
 def handle_standard_collision(platform):
-    dx = min(player.rect.right - platform.rect.left,
-             platform.rect.right - player.rect.left)
-    dy = min(player.rect.bottom - platform.rect.top,
-             platform.rect.bottom - player.rect.top)
+    dx = player.rect.right - platform.rect.left
+    dx_2 = platform.rect.right - player.rect.left
+    dy = player.rect.bottom - platform.rect.top
+    dy_2 = platform.rect.bottom - player.rect.top
 
     if dx < dy:
         if player.rect.centerx < platform.rect.centerx:
@@ -96,7 +96,9 @@ def handle_standard_collision(platform):
         else:
             player.rect.left = platform.rect.right
         player.speed_x = 0
-    else:
+
+
+    if dx_2 < dy_2:
         if player.velocity > 0:
             player.rect.bottom = platform.rect.top
             player.velocity = 0

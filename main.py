@@ -130,7 +130,7 @@ def handle_slope_collision(platform):
     #             player.rect.top = platform.rect.bottom
     #             player.velocity = 0
 
-    elif isinstance(platform, (GrassHillRight, GrassHillRight2)):
+    if isinstance(platform, (GrassHillRight, GrassHillRight2)):
         relative_x = platform.rect.right - player.rect.centerx  # Инвертируем расчет
         slope_ratio = relative_x / platform.rect.width
         slope_y = platform.rect.bottom - int(slope_ratio * platform.rect.height)
@@ -169,6 +169,11 @@ def render():
     for platform in platforms:
         screen.blit(platform.image, platform.rect)
         pygame.draw.rect(screen, (255, 0, 0), platform.rect, 1)
+
+    for door in doors:
+        screen.blit(door.image, door.rect)
+
+
 
     for wave in wave_animations:
         wave.draw(screen)

@@ -1,6 +1,6 @@
 import pygame
 import os
-from platforms import platforms
+from platforms import *
 
 class Player(pygame.sprite.Sprite):
     def load_animation_frames(self, folder_path="res_animation_run", height=None):

@@ -4,6 +4,7 @@ from player import Player
 from tiles import GrassMid, Grass, GrassRight, GrassHillRight, GrassHillRight2
 from wave_animation import WaveAnimation
 import platforms
+# lkzxc
 
 # Инициализация Pygame
 pygame.init()

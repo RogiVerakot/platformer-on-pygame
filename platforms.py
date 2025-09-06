@@ -1,6 +1,6 @@
 from tiles import *
 
-level = 1
+level = 0
 
 platforms = [
         GrassMid(150, 800),

@@ -1,6 +1,6 @@
 from tiles import *
 
-level = 0
+level = 1
 
 platforms = [
         GrassMid(150, 800),
@@ -55,4 +55,9 @@ doors = [
     # Door_3(650, 559),
     Door_3(850, 459),
 
+]
+
+doors_2 = [
+    Door(750, 700),
+    Door_3(250, 159)
 ]

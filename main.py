@@ -70,15 +70,31 @@ def update():
             for door in platforms.doors:
                 door.rect.x += move_direction * 5  # 5 - скорость движения
 
+    if platforms.level == 1:
+        if move_direction != 0:
+            for door in platforms.doors_2:
+                door.rect.x += move_direction * 5  # 5 - скорость движения
+
+
     # Проверка коллизий (остаётся без изменений)
-    # player.on_ground = False
-    # for platform in platforms.platforms:
-    #     if player.rect.colliderect(platform.rect):
-    #         handle_collision(platform)
-    #
-    # for door in platforms.doors:
-    #     if player.rect.colliderect(door.rect):
-    #         platforms.level += 1
+    player.on_ground = False
+    if platforms.level == 0:
+        for platform in platforms.platforms:
+            if player.rect.colliderect(platform.rect):
+                handle_collision(platform)
+
+        for door in platforms.doors:
+            if player.rect.colliderect(door.rect):
+                platforms.level += 1
+
+    elif platforms.level == 1:
+        for platform in platforms.platforms_2:
+            if player.rect.colliderect(platform.rect):
+                handle_collision(platform)
+
+        for door in platforms.doors_2:
+            if player.rect.colliderect(door.rect):
+                platforms.level -= 1
 
     # Границы экрана (теперь проверяем, чтобы игрок не уходил за пределы)
     handle_screen_bounds()
@@ -176,15 +192,19 @@ def render():
             if 0 <= platform.rect.y <= HEIGHT:
                 screen.blit(platform.image, platform.rect)
 
+        for door in platforms.doors:
+            if 0 <= door.rect.y <= HEIGHT:
+                screen.blit(door.image, door.rect)
+
     elif platforms.level == 1:
         for platform in platforms.platforms_2:
             if 0 <= platform.rect.y <= HEIGHT:
                 screen.blit(platform.image, platform.rect)
 
-    if platforms.level == 0:
-        for door in platforms.doors:
+        for door in platforms.doors_2:
             if 0 <= door.rect.y <= HEIGHT:
                 screen.blit(door.image, door.rect)
+
 
     for wave in wave_animations:
         wave.draw(screen)

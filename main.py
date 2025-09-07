@@ -22,8 +22,17 @@ background = pygame.transform.scale(bg_image, (WIDTH, HEIGHT))
 player = Player(frames_folder_run="res_animation_run", height=73)
 
 wave_animations = [
-    WaveAnimation((x, 750), width=100, height=100)
-    for x in range(550, 951, 100)
+    WaveAnimation((550, 750), width=100, height=100),
+    WaveAnimation((650, 750), width=100, height=100),
+    WaveAnimation((750, 750), width=100, height=100),
+    WaveAnimation((850, 750), width=100, height=100)
+]
+
+wave_animations_2 = [
+    WaveAnimation((550, 750), width=100, height=100),
+    WaveAnimation((650, 750), width=100, height=100),
+    WaveAnimation((750, 750), width=100, height=100),
+    WaveAnimation((850, 750), width=100, height=100)
 ]
 
 def handle_events():
@@ -62,8 +71,12 @@ def update():
                 platform.rect.x += move_direction * 5  # 5 - скорость движения
 
         # Двигаем анимации волн тоже
-        for wave in wave_animations:
-            wave.rect.x += move_direction * 5
+        if platforms.level == 0:
+            for wave in wave_animations:
+                wave.rect.x += move_direction * 5
+        elif platforms.level == 1:
+            for wave in wave_animations_2:
+                wave.rect.x += move_direction * 5
 
     if platforms.level == 0:
         if move_direction != 0:
@@ -85,7 +98,7 @@ def update():
 
         for door in platforms.doors:
             if player.rect.colliderect(door.rect):
-                platforms.level += 1
+                platforms.level = 1
 
     elif platforms.level == 1:
         for platform in platforms.platforms_2:
@@ -94,14 +107,19 @@ def update():
 
         for door in platforms.doors_2:
             if player.rect.colliderect(door.rect):
-                platforms.level -= 1
+                platforms.level = 0
 
     # Границы экрана (теперь проверяем, чтобы игрок не уходил за пределы)
     handle_screen_bounds()
 
     # Обновление анимаций волн
-    for wave in wave_animations:
-        wave.update()
+
+    if platforms.level == 0:
+        for wave in wave_animations:
+            wave.update()
+    elif platforms.level == 1:
+        for wave in wave_animations:
+            wave.update()
 
 def handle_collision(platform):
     if hasattr(platform, 'is_slope') and platform.is_slope:

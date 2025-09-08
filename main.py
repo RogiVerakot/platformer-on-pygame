@@ -1,7 +1,7 @@
 import pygame
 import os
 from player import Player
-from tiles import GrassMid, Grass, GrassRight, GrassHillRight, GrassHillRight2
+from tiles import GrassHillRight, GrassHillRight2
 from wave_animation import WaveAnimation
 import platforms
 
@@ -35,6 +35,13 @@ wave_animations_2 = [
     WaveAnimation((850, 750), width=100, height=100)
 ]
 
+wave_animations_3 = [
+    WaveAnimation((550, 750), width=100, height=100),
+    WaveAnimation((650, 750), width=100, height=100),
+    WaveAnimation((750, 750), width=100, height=100),
+    WaveAnimation((850, 750), width=100, height=100)
+]
+
 def handle_events():
     global running
     for event in pygame.event.get():
@@ -58,6 +65,9 @@ def handle_input():
         player.speed_x = 0
 
 def update():
+
+    keys = pygame.key.get_pressed()
+
     # Получаем направление движения от игрока
     move_direction = player.update()
 
@@ -66,27 +76,45 @@ def update():
         if platforms.level == 0:
             for platform in platforms.platforms:
                 platform.rect.x += move_direction * 5  # 5 - скорость движения
+
+            for wave in wave_animations:
+                wave.rect.x += move_direction * 5
+
+            for door in platforms.doors:
+                door.rect.x += move_direction * 5  # 5 - скорость движения
+
+            for door in platforms.doors_2:
+                door.rect.x += move_direction * 5  # 5 - скорость движения
         elif platforms.level == 1:
             for platform in platforms.platforms_2:
                 platform.rect.x += move_direction * 5  # 5 - скорость движения
 
-        # Двигаем анимации волн тоже
-        if platforms.level == 0:
-            for wave in wave_animations:
-                wave.rect.x += move_direction * 5
-        elif platforms.level == 1:
             for wave in wave_animations_2:
                 wave.rect.x += move_direction * 5
-
-    if platforms.level == 0:
-        if move_direction != 0:
-            for door in platforms.doors:
+            for door in platforms.doors_3:
                 door.rect.x += move_direction * 5  # 5 - скорость движения
 
-    if platforms.level == 1:
-        if move_direction != 0:
-            for door in platforms.doors_2:
+        elif platforms.level == 2:
+            for platform in platforms.platforms_4:
+                platform.rect.x += move_direction * 5  # 5 - скорость движения
+
+            for wave in wave_animations_3:
+                wave.rect.x += move_direction * 5
+            for door in platforms.doors_4:
                 door.rect.x += move_direction * 5  # 5 - скорость движения
+    # if platforms.level == 0:
+    #     if move_direction != 0:
+    #         for door in platforms.doors:
+    #             door.rect.x += move_direction * 5  # 5 - скорость движения
+
+    #     if move_direction != 0:
+    #         for door in platforms.doors_2:
+    #             door.rect.x += move_direction * 5  # 5 - скорость движения
+    #
+    # if platforms.level == 1:
+    #     if move_direction != 0:
+    #         for door in platforms.doors_3:
+    #             door.rect.x += move_direction * 5  # 5 - скорость движения
 
 
     # Проверка коллизий (остаётся без изменений)
@@ -97,16 +125,29 @@ def update():
                 handle_collision(platform)
 
         for door in platforms.doors:
-            if player.rect.colliderect(door.rect):
+            if player.rect.colliderect(door.rect) and keys[pygame.K_SPACE]:
                 platforms.level = 1
+
+        for door in platforms.doors_2:
+            if player.rect.colliderect(door.rect) and keys[pygame.K_SPACE]:
+                platforms.level = 2
 
     elif platforms.level == 1:
         for platform in platforms.platforms_2:
             if player.rect.colliderect(platform.rect):
                 handle_collision(platform)
 
-        for door in platforms.doors_2:
-            if player.rect.colliderect(door.rect):
+        for door in platforms.doors_3:
+            if player.rect.colliderect(door.rect) and keys[pygame.K_SPACE]:
+                platforms.level = 0
+
+    elif platforms.level == 2:
+        for platform in platforms.platforms_4:
+            if player.rect.colliderect(platform.rect):
+                handle_collision(platform)
+
+        for door in platforms.doors_4:
+            if player.rect.colliderect(door.rect) and keys[pygame.K_SPACE]:
                 platforms.level = 0
 
     # Границы экрана (теперь проверяем, чтобы игрок не уходил за пределы)
@@ -118,7 +159,11 @@ def update():
         for wave in wave_animations:
             wave.update()
     elif platforms.level == 1:
-        for wave in wave_animations:
+        for wave in wave_animations_2:
+            wave.update()
+
+    elif platforms.level == 2:
+        for wave in wave_animations_3:
             wave.update()
 
 def handle_collision(platform):
@@ -214,18 +259,38 @@ def render():
             if 0 <= door.rect.y <= HEIGHT:
                 screen.blit(door.image, door.rect)
 
+        for door in platforms.doors_2:
+            if 0 <= door.rect.y <= HEIGHT:
+                screen.blit(door.image, door.rect)
+
     elif platforms.level == 1:
         for platform in platforms.platforms_2:
             if 0 <= platform.rect.y <= HEIGHT:
                 screen.blit(platform.image, platform.rect)
 
-        for door in platforms.doors_2:
+        for door in platforms.doors_3:
             if 0 <= door.rect.y <= HEIGHT:
                 screen.blit(door.image, door.rect)
 
+    elif platforms.level == 2:
+        for platform in platforms.platforms_4:
+            if 0 <= platform.rect.y <= HEIGHT:
+                screen.blit(platform.image, platform.rect)
 
-    for wave in wave_animations:
-        wave.draw(screen)
+        for door in platforms.doors_4:
+            if 0 <= door.rect.y <= HEIGHT:
+                screen.blit(door.image, door.rect)
+
+    if platforms.level == 0:
+        for wave in wave_animations:
+            wave.draw(screen)
+    elif platforms.level == 1:
+        for wave in wave_animations_2:
+            wave.draw(screen)
+
+    elif platforms.level == 2:
+        for wave in wave_animations_3:
+            wave.draw(screen)
 
     screen.blit(player.image, player.rect)
     pygame.display.flip()
